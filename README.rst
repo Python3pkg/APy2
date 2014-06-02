@@ -28,8 +28,8 @@ Some simple usage looks like this::
 
     with api.context("web"):
     	@api.add()
-    	def foo(a, b):
-    		return a + b
+    	def foo(a = "This", b = "Great"):
+    		return " ".join([a, "is", b])
 
     if __name__ == "__main__":
     	with context("web") as web:
