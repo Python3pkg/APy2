@@ -2,15 +2,6 @@
  APy
 =====
 
-To download and install PyApiMaker use::
-
-	pip install git+https://github.com/Jbat1Jumper/APy.git
-
-Or any python3 pip shortcut that you may have.
-
-
-
-
 With *APy* you can make a Python API and then, serve it online, make scalable 
 intercommunicable applications, document and organize your code, make command 
 line interfaces quickly, reuse it in other applications, and more cool stuff...
@@ -43,6 +34,13 @@ Some simple usage looks like this::
     if __name__ == "__main__":
     	with context("web") as web:
     		print(web.foo())
+
+
+To download and install PyApiMaker use::
+
+	pip install git+https://github.com/Jbat1Jumper/APy.git
+
+Or any python3 pip shortcut that you may have.
 
 
 `Full documentation here <https://github.com/Jbat1Jumper/APy/wiki>`
