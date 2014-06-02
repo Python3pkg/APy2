@@ -18,7 +18,7 @@ Some simple usage looks like this::
 
     #!/usr/bin/env python
 
-    from apy.core import Api
+    from apy.core.api import Api
 
     api = Api()
 

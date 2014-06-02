@@ -4,7 +4,7 @@ import os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 
-from apy.core.api import Api
+from apy2.core.api import Api
 
 
 class TestApi(unittest.TestCase):  # pragma: no cover
