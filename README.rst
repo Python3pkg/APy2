@@ -38,6 +38,10 @@ Some simple usage looks like this::
 
 To download and install PyApiMaker use::
 
+    pip install apy2
+
+or ::
+
 	pip install git+https://github.com/Jbat1Jumper/APy.git
 
 Or any python3 pip shortcut that you may have.
