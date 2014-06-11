@@ -37,6 +37,7 @@ class TestApi(unittest.TestCase):  # pragma: no cover
     def test_get_none(self):
         a = self.api.get_function("foo")
         self.assertIsNone(a)
+
         @self.api.add()
         def foo1():
             pass
@@ -80,6 +81,7 @@ class TestApi(unittest.TestCase):  # pragma: no cover
         def buy1():
             pass
         with self.api.context("supermarket"):
+
             @self.api.add()
             def buy1():
                 pass
@@ -102,11 +104,13 @@ class TestApi(unittest.TestCase):  # pragma: no cover
         def buy2():
             pass
         self.api.enter_context("drugstore")
+
         @self.api.add()
         def buy2():
             pass
         self.api.exit_context()
         self.api.enter_context("supermarket")
+
         @self.api.add()
         def buy1():
             pass
@@ -151,7 +155,7 @@ class TestApi(unittest.TestCase):  # pragma: no cover
                 pass
 
     def test_add_resource(self):
-        self.skipTest("not yet")
+        self.skipTest("not yet, simply not yet")
 
     def test_foo_param(self):
         @self.api.add()
@@ -181,7 +185,7 @@ class TestApi(unittest.TestCase):  # pragma: no cover
 
     def test_foo_annotations2(self):
         @self.api.add()
-        def f(a: int, b: str = "B", c: int=90):
+        def f(a: int, b: str="B", c: int=90):
             pass
 
         f(32, "bb", 0)
@@ -240,6 +244,84 @@ class TestApi(unittest.TestCase):  # pragma: no cover
                          "{context: 'spam', functions: ["
                          "<spam.bar()>]}")
 
+    def test_invalid_characters_in_names(self):
+        with self.assertRaises(Exception):
+            @self.api.add(name=" ")
+            def foo():
+                pass
+        with self.assertRaises(Exception):
+            @self.api.add(name=" invalid ")
+            def spam():
+                pass
+        with self.assertRaises(Exception):
+            @self.api.add(name="inva lid")
+            def spam():
+                pass
+        with self.assertRaises(Exception):
+            @self.api.add(name="_something")
+            def bar():
+                pass
+        with self.assertRaises(Exception):
+            @self.api.add()
+            def _invalid():
+                pass
+        with self.assertRaises(Exception):
+            @self.api.add(name="666_invalid")
+            def hell_not():
+                pass
 
-if __name__ == '__main__':
+    def test_invalid_characters_in_foo_contexts(self):
+        with self.assertRaises(Exception):
+            @self.api.add(context=" ")
+            def foo():
+                pass
+        with self.assertRaises(Exception):
+            @self.api.add(context="99")
+            def bar():
+                pass
+        with self.assertRaises(Exception):
+            @self.api.add(context="o a")
+            def eggs():
+                pass
+        with self.assertRaises(Exception):
+            @self.api.add(context="*)()(/&$&#")
+            def spam():
+                pass
+
+        # This one shall pass, for future improves
+        @self.api.add(context="somewhere.else")
+        def wiii():
+            pass
+
+        # But this one not
+        with self.assertRaises(Exception):
+            @self.api.add(context=".somewhat")
+            def foo2():
+                pass
+
+    def test_enter_invalid_context_name(self):
+        with self.assertRaises(Exception):
+            self.api.enter_context(" ")
+        with self.assertRaises(Exception):
+            self.api.enter_context(".a")
+        with self.assertRaises(Exception):
+            self.api.enter_context("66")
+        with self.assertRaises(Exception):
+            self.api.enter_context("a k")
+
+    def test_enter_with_with_invalid_context_name(self):
+        with self.assertRaises(Exception):
+            with self.api.context(" "):
+                pass
+        with self.assertRaises(Exception):
+            with self.api.context(".a"):
+                pass
+        with self.assertRaises(Exception):
+            with self.api.context("66"):
+                pass
+        with self.assertRaises(Exception):
+            with self.api.context("a k"):
+                pass
+
+if __name__ == '__main__':  # pragma: no cover
     unittest.main()

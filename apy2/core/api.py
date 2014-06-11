@@ -13,6 +13,11 @@ class Api():
 
     def context(self, name=None):
         name = name or self.current_context()
+        import re
+        if not re.search("^\S+$", name):
+            raise Exception("Context name must be valid, must not have spaces")
+        if not re.search("^[a-zA-Z_][\w]*(.[a-zA-Z_][\w]*)*$", name):
+            raise Exception("Context name must be valid")
         return Context(self, name)
 
     def current_context(self):
@@ -21,6 +26,11 @@ class Api():
         return self._context[-1]
 
     def enter_context(self, name):
+        import re
+        if not re.search("^\S+$", name):
+            raise Exception("Context name must be valid, must not have spaces")
+        if not re.search("^[a-zA-Z_][\w]*(.[a-zA-Z_][\w]*)*$", name):
+            raise Exception("Context name must be valid")
         self._context.append(name)
 
     def exit_context(self, name=None):
@@ -45,7 +55,19 @@ class Api():
             f = f._func
         y = Function(f)
         y.name = name or y.name
+
+        import re
+        m = re.search("^[a-zA-Z][a-zA-Z0-9_]*$", y.name)
+        if not m:
+            raise Exception("Name of function must be valid")
+
         y.context = context or self.current_context()
+
+        if not re.search("^\S+$", y.context):
+            raise Exception("Context name must be valid, must not have spaces")
+        if not re.search("^[a-zA-Z_][\w]*(.[a-zA-Z_][\w]*)*$", y.context):
+            raise Exception("Context name must be valid")
+
         y.key = "%s.%s" % (str(y.context), str(y.name))
         self._functions[y.key] = y
         return y
