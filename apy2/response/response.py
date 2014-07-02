@@ -78,14 +78,17 @@ def JsonResponse(xs):
         x = loads(xs)
     except Exception as e:
         return BadResponse(e)
-    r = Response()
-    r.content = x["content"]
-    r.type = x["type"]
-    r.exception = x["exception"]
-    if r.exception:
-        ext = get_exception_type(r.exception["type"])
-        r.exception = ext(r.exception["msg"])
-    return r
+    try:
+        r = Response()
+        r.content = x["content"]
+        r.type = x["type"]
+        r.exception = x["exception"]
+        if r.exception:
+            ext = get_exception_type(r.exception["type"])
+            r.exception = ext(r.exception["msg"])
+        return r
+    except Exception as e:
+        return BadResponse(Exception("Exception format error: " + repr(e)))
 
 
 def get_exception_type(s):

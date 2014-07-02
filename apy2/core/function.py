@@ -42,7 +42,11 @@ class Function():
         return ok
 
     def to_json(self):
-        return {"context": self.context, "name": self.name, "args": self.get_args()}
+        return {
+            "context": self.context,
+            "name": self.name,
+            "args": self.get_args()
+        }
 
     def __repr__(self):
         from inspect import formatargspec

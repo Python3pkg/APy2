@@ -172,6 +172,10 @@ class TestSerializedResponse(unittest.TestCase):  # pragma: no cover
             r = JsonResponse(GoodResponse(x).serialize())
             self.assertEqual(r.content, x)
 
+    def test_json_is_fine_but_is_incomplete(self):
+        r2 = JsonResponse('{"imma": "cheatin yo"}')
+        with self.assertRaisesRegex(Exception, "Exception format error: *"):
+            r2.unwrap()
 
 if __name__ == "__main__":
     unittest.main()
