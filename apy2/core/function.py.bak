@@ -29,7 +29,7 @@ class Function():
 
     def _check_args(self, *args, **kwargs):
         ok = True
-        for n, (name, par) in enumerate(list(self.sign.parameters.items())):
+        for n, (name, par) in enumerate(self.sign.parameters.items()):
             if n < len(args):
                 ok = ok and (type(args[n]) == par.annotation
                              or par.annotation == par.empty)

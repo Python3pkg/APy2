@@ -33,7 +33,7 @@ def GoodResponse(x):
     def verify_keys_in_dicts(x):
         if not isinstance(x, dict):
             return True
-        for y in list(x.keys()):
+        for y in x.keys():
             if not isinstance(y, str):
                 return False
             if not verify_keys_in_dicts(x[y]):

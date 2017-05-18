@@ -78,7 +78,7 @@ class Api():
     def find_functions(self, name="*", context=None):
         results = []
         context = context or self.current_context()
-        for foo in list(self._functions.values()):
+        for foo in self._functions.values():
             if smatch(foo.name, name) and smatch(foo.context, context):
                 results.append(foo)
         return results
